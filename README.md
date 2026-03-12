@@ -33,4 +33,4 @@ With my new component, that could be compressed down to a simple one-liner like 
 
 To view the code/page that perviews these components, check out `Components/Pages/ErrorComponentsTesting.razor`. The Error components themselves live in `Components/Errors`.
 
-[Errors Showoff](preview.png)
+![Errors Showoff](preview.png)
