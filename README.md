@@ -34,3 +34,9 @@ With my new component, that could be compressed down to a simple one-liner like 
 To view the code/page that perviews these components, check out `Components/Pages/ErrorComponentsTesting.razor`. The Error components themselves live in `Components/Errors`.
 
 ![Errors Showoff](preview.png)
+
+## Licensing
+
+All original work here is waived to the public domain under [Creative Commons Zero 1.0 Universal (CC0)](LICENSE)
+
+Parts of this project also utilizes the NuGet package [BYSResults](https://www.nuget.org/packages/BYSResults), created by James Thompson (thumper631). Licensed under [MIT](https://github.com/thumper631/BYSResults?tab=MIT-1-ov-file).
