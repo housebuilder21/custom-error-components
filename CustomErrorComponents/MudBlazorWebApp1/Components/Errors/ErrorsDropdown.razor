@@ -1,0 +1,24 @@
+﻿@typeparam TError
+
+@inherits ErrorsBase
+
+<style>
+    :root {
+        --mud-error-color: rgb(244, 67, 54);
+    }
+</style>
+
+@if (Errors.Count != 0)
+{
+    <MudExpansionPanels Class="@($"border {Class}")" Style="@($"border-color: var(--mud-error-color); {Style}")">
+        <MudExpansionPanel Text="Some errors were found. Click on this message to find out more." Style="color: var(--mud-error-color); box-shadow: none;">
+            <MudDivider Style="border-bottom: solid 1px var(--mud-error-color);" />
+            <ErrorsTable Errors="Errors" DisableBorder />
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+}
+
+@code {
+    [Parameter]
+    public List<TError> Errors { get; set; }
+}

@@ -1,0 +1,34 @@
+﻿@typeparam TError
+
+@inherits ErrorsBase
+
+@if (Errors.Count > 0)
+{
+    <MudAlert Severity="Severity.Error" Variant="Variant.Outlined" Class="@($"mb-4 {Class}")" Style="@Style" NoIcon>
+        Some errors were found. Click here to find out more:
+        <MudButton Variant="Variant.Outlined"
+                   Color="Color.Error"
+                   OnClick="ShowDialog">Show</MudButton>
+    </MudAlert>
+}
+
+
+<MudDialog @ref="_errorsDialog" @bind-Visible="_showList">
+    <DialogContent>
+        <ErrorsTable Errors="Errors" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Close" Class="px-10">Close</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    private bool _showList = false;
+    private MudDialog _errorsDialog;
+
+    [Parameter]
+    public List<TError> Errors { get; set; }
+
+    private void Close() => _showList = false;
+    private void ShowDialog() => _errorsDialog.ShowAsync("Errors", new DialogOptions { MaxWidth = MaxWidth.Large, FullWidth = true });
+}

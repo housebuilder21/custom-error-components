@@ -1,0 +1,40 @@
+﻿@inherits ErrorsBase
+
+@* Header + Message *@
+@if (IsNotEmpty(Header) && IsNotEmpty(Message))
+{
+    <MudAlert Severity="Severity.Error" Variant="Variant.Outlined" Class="@($"mb-4 {Class}")" Style="@Style">
+        <strong>@Header: </strong> @Message
+    </MudAlert>
+}
+
+@* Message Only *@
+else if (IsNotEmpty(Message) && IsEmpty(Header))
+{
+    <MudAlert Severity="Severity.Error" Variant="Variant.Outlined" Class="@($"mb-4 {Class}")" Style="@Style">
+        @Message
+    </MudAlert>
+}
+
+@* Header Only *@
+else if (IsNotEmpty(Header) && HeaderOnly)
+{
+    <MudAlert Severity="Severity.Error" Variant="Variant.Outlined" Class="@($"mb-4 {Class}")" Style="@Style">
+        <strong>@Header</strong>
+    </MudAlert>
+}
+
+@code {
+    [Parameter]
+    public string? Message { get; set; }
+
+    [Parameter]
+    public string? Header { get; set; }
+
+    [Parameter]
+    public bool HeaderOnly { get; set; }
+
+    // Mini Helpers
+    private bool IsEmpty(string? msg) => string.IsNullOrWhiteSpace(msg);
+    private bool IsNotEmpty(string? msg) => !string.IsNullOrWhiteSpace(msg);
+}

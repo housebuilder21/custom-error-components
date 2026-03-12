@@ -1,0 +1,55 @@
+﻿@using BYSResults
+
+@typeparam TError
+
+@inherits ErrorsBase
+
+<style>
+    :root {
+        --mud-error-color: rgb(244, 67, 54);
+    }
+
+    .mud-table-cell {
+        border-bottom-color: var(--mud-error-color);
+    }
+</style>
+
+@if (Errors.Count != 0)
+{
+    @if (Errors is List<string> stringErrors)
+    {
+        <!-- String Only Messages -->
+        <MudTable Items="stringErrors" Class="@($"{_borderClass} {Class}")" Style="@($"border-color: var(--mud-error-color); box-shadow: none; {Style}")">
+            <RowTemplate>
+                <MudTd><MudText Color="Color.Error">@context</MudText></MudTd>
+            </RowTemplate>
+        </MudTable>
+    }
+    else if (Errors is List<Error> bysErrors)
+    {
+        <!-- BYSResults Messages -->
+        <MudTable Items="bysErrors" Class="@($"{_borderClass} {Class}")" Style="@($"border-color: var(--mud-error-color); box-shadow: none; {Style}")">
+            <ColGroup>
+                <col style="width: 20%" />
+                <col />
+            </ColGroup>
+            <RowTemplate>
+                <MudTd><MudText Color="Color.Error"><strong>@context.Code</strong></MudText></MudTd>
+                <MudTd><MudText Color="Color.Error">@context.Message</MudText></MudTd>
+            </RowTemplate>
+        </MudTable>
+    }
+}
+
+@code {
+    private string _borderClass = "border";
+
+    [Parameter]
+    public List<TError> Errors { get; set; }
+
+    [Parameter]
+    public bool DisableBorder { get; set; } = false;
+
+    protected override void OnInitialized()
+        { if (DisableBorder) { _borderClass = string.Empty; } }
+}

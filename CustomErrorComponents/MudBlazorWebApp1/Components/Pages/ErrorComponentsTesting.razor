@@ -1,0 +1,98 @@
+﻿@using BYSResults
+@using CustomErrorComponents.Components.Errors
+@using Microsoft.AspNetCore.Authorization
+
+@page "/"
+
+@*
+    This page showcase the custom error messages I made so that displaing error messages 
+    would be less annoying and more unified.
+*@
+
+<MudPaper Elevation="6" Class="pa-4 ma-8">
+    <!-- Generic Error -->
+    <MudText Typo="Typo.h6" Class="mb-2">Generic Errors</MudText>
+    <ErrorGeneric Message="@_genericErrorMessageOnly" />
+    <ErrorGeneric Header="@_genericErrorHeaderOnly" />
+    <ErrorGeneric Header="Test Header" Message="@_genericErrorHeaderAndMessage" />
+
+    <MudDivider Class="my-5" />
+
+    <!-- Errors List (strings) -->
+    <MudText Typo="Typo.h6" Class="mb-2">Error List (strings)</MudText>
+    <ErrorsTable Errors="@_errorStrings" />
+
+    <MudDivider Class="my-5" />
+
+    <!-- Errors List (BYSResults Errors) + DisableBorder="true" -->
+    <MudText Typo="Typo.h6" Class="mb-2">Error List (BYSResults Errors) + DisableBorder="true"</MudText>
+    <ErrorsTable Errors="@_errorBysErrors" DisableBorder="true" />
+
+    <MudDivider Class="my-5" />
+
+    <!-- Errors Dropdown (strings or BYSReults Errors) -->
+    <MudText Typo="Typo.h6" Class="mb-2">Dropdown List (strings or BYSResults Errors)</MudText>
+    <ErrorsDropdown Errors="_errorBysErrors" />
+
+    <MudDivider Class="my-5" />
+
+    <!-- Empty Messages/Lists -->
+    <MudText Typo="Typo.h6" Class="mb-2">Empty Error Messages</MudText>
+    <MudText>They're completely invisible, but they are present within the code for the Razor page.</MudText>
+    <MudText>You don't have to check if the string/list is empty or null to hide these error messages.</MudText>
+    <ErrorGeneric Message="@_emptyString" />
+    <ErrorsTable Errors="_emptyResultsErrors" />
+    <ErrorsDropdown Errors="_emptyStringErrors"/>
+
+    <MudDivider Class="my-5" />
+
+    <!-- Errors Dialog Popup (strings or BYSResults Errors) -->
+    <MudText Typo="Typo.h6" Class="mb-2">Dialog Popup List (strings or BYSResults Errors)</MudText>
+    <MudStack Row="true" Class="my-4">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@TestSubmit">Submit</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@Reset">Reset</MudButton>
+    </MudStack>
+    <ErrorsPopup Errors="_errorsForPopup" />
+
+    <MudDivider Class="my-5" />
+
+    <!-- Style & Class Parameters -->
+    <MudText Typo="Typo.h6" Class="mb-2">Style & Class Parameters</MudText>
+    <ErrorGeneric Header="Unfashionable Disaster" 
+                  Message="Errors should not be blue!"
+                  Class="pa-6 ml-12"
+                  Style="color: blue; border-color: blue;" />
+</MudPaper>
+
+@code {
+    private string _genericErrorMessageOnly = "Error";
+    private string _genericErrorHeaderOnly = "Test Header Only";
+    private string _genericErrorHeaderAndMessage = "Test Error Message.";
+
+    private List<string> _errorStrings = [
+        "Test Error 1",
+        "Test Error 2",
+        "Test Error 3"
+    ];
+
+    private List<Error> _errorBysErrors = [
+        new Error("Invalid Given String", "Error Message 1"),
+        new Error("Empty Name", "Error Message 2"),
+        new Error("Password Incorrect", "Error Message 3")
+    ];
+
+    private List<Error> _errorsForPopup = [];
+    private void TestSubmit()
+    {
+        _errorsForPopup = [
+        new Error("Invalid Given String", "Error Message 1"),
+        new Error("Empty Name", "Error Message 2"),
+        new Error("Password Incorrect", "Error Message 3")
+    ];
+    }
+    private void Reset() => _errorsForPopup.Clear();
+
+    private string _emptyString = string.Empty;
+    private List<string> _emptyStringErrors = new();
+    private List<Error> _emptyResultsErrors = new();
+}
